@@ -70,7 +70,7 @@ The APK will be generated at `build/app/outputs/flutter-apk/app-release.apk`.
 
 - [Flutter Documentation](https://docs.flutter.dev/)
 - [Dart Documentation](https://dart.dev/guides)
-- [Kronos API Repository](https://github.com/your-user/kronos-api)
+- [Kronos API Repository](https://github.com/Fernando-CR19/kronos-api)
 
 ## License
 
