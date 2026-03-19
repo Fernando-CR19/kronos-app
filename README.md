@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://storage.googleapis.com/cms-storage-bucket/ec64036b4eaab3c118aa.svg" width="120" alt="Flutter Logo" />
+  <img src="https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png" width="120" alt="Flutter Logo" />
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 Mobile app for Android built with [Flutter](https://flutter.dev/). Kronos is a personal calendar with offline-first support, color tags, event types, and local notifications — free from third-party services like Google Calendar.
 
-API repository: [kronos-api](https://github.com/your-user/kronos-api)
+API repository: [kronos-api](https://github.com/Fernando-CR19/kronos-api)
 
 ## Requirements
 
