@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/login_screen.dart';
 
@@ -11,8 +13,75 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  final _nameController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
   bool _showPassword = false;
   bool _showConfirmPassword = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _register() async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('As senhas não coincidem.')));
+
+      return;
+    }
+
+    try {
+      final authService = ref.read(authServiceProvider);
+
+      await authService.register(
+        name: _nameController.text,
+        username: _usernameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Conta criada com sucesso'
+          )
+        )
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginScreen()
+        ),
+      );
+    } on DioException catch (err) {
+      final message = err.response?.data['message'] ?? 'Erro ao criar conta.';
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(
+        SnackBar(
+          content: Text(
+            message
+          )
+        )
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +111,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                       SizedBox(height: 40),
                       TextField(
+                        controller: _nameController,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(hintText: 'Seu nome'),
                       ),
 
                       SizedBox(height: 16),
                       TextField(
+                        controller: _usernameController,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           hintText: 'Nome de usuário',
@@ -56,12 +127,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                       SizedBox(height: 16),
                       TextField(
+                        controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(hintText: 'Email'),
                       ),
 
                       SizedBox(height: 16),
                       TextField(
+                        controller: _passwordController,
                         obscureText: !_showPassword,
                         decoration: InputDecoration(
                           hintText: 'Senha',
@@ -80,6 +153,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                       SizedBox(height: 16),
                       TextField(
+                        controller: _confirmPasswordController,
                         obscureText: !_showConfirmPassword,
                         decoration: InputDecoration(
                           hintText: 'Confirmar senha',
@@ -109,7 +183,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _register,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
