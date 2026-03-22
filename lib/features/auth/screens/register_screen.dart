@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:kronos_app/features/auth/screens/login_screen.dart';
+
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -9,37 +11,187 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  bool _showPassword = false;
+  bool _showConfirmPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Text('name'),
-                    Text('username'),
-                    Text('email'),
-                    Text('password'),
-                    Text('celular'),
-                    Text('password'),
-                    Text('corfim password'),
-                    Text('Botaão Criar'),
-                    Text('ou'),
-                    Text('Já tem uma conta? Faça o Login'),
-                  ],
-                )
-              ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 60),
+                      Text(
+                        'CADASTRO',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 4,
+                        ),
+                      ),
+
+                      SizedBox(height: 40),
+                      TextField(
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(hintText: 'Seu nome'),
+                      ),
+
+                      SizedBox(height: 16),
+                      TextField(
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          hintText: 'Nome de usuário',
+                        ),
+                      ),
+
+                      SizedBox(height: 16),
+                      TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(hintText: 'Email'),
+                      ),
+
+                      SizedBox(height: 16),
+                      TextField(
+                        obscureText: !_showPassword,
+                        decoration: InputDecoration(
+                          hintText: 'Senha',
+                          suffixIcon: IconButton(
+                            onPressed: () =>
+                                setState(() => _showPassword = !_showPassword),
+                            icon: Icon(
+                              _showPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xFF9B9BB5),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 16),
+                      TextField(
+                        obscureText: !_showConfirmPassword,
+                        decoration: InputDecoration(
+                          hintText: 'Confirmar senha',
+                          suffixIcon: IconButton(
+                            onPressed: () => setState(
+                              () =>
+                                  _showConfirmPassword = !_showConfirmPassword,
+                            ),
+                            icon: Icon(
+                              _showConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xFF9B9BB5),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 32),
+                      Container(
+                        width: double.infinity,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF4A90D9), Color(0xFF7B2FBE)],
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadiusGeometry.circular(16),
+                            ),
+                          ),
+                          child: Text(
+                            'Criar conta',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 24),
+
+                      Row(
+                        children: [
+                          Expanded(child: Divider(color: Color(0xFF2A2A4A))),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              'ou',
+                              style: TextStyle(
+                                color: Color(0xFF9B9BB5),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          Expanded(child: Divider(color: Color(0xFF2A2A4A))),
+                        ],
+                      ),
+
+                      SizedBox(height: 24),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Já tem uma conta? ',
+                            style: TextStyle(
+                              color: Color(0xFF9B9BB5),
+                              fontSize: 14,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: ShaderMask(
+                              shaderCallback: (bounds) => LinearGradient(
+                                colors: [Color(0xFF4A90D9), Color(0xFF7B2FBE)],
+                              ).createShader(bounds),
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }
