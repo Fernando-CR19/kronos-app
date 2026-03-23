@@ -21,4 +21,19 @@ class AuthService {
       },
     );
   }
+
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password
+  }) async {
+    final response = await _apiService.client.post(
+      '/auth/login-user',
+      data: {
+        'email': email,
+        'password': password
+      },
+    );
+
+    return response.data;
+  }
 }
