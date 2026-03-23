@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/register_screen.dart';
+import 'package:kronos_app/shared/services/storage_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -25,18 +26,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     try {
       final authService = ref.read(authServiceProvider);
+      final storageService = ref.read(storageProvider);
 
-      await authService.login(
+      final response = await authService.login(
         email: _emailController.text,
         password: _passwordController.text,
       );
+
+      await storageService.saveToken(response['access_token']);
 
       if (!mounted) return;
 
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Login realizado com sucesso')));
-
     } on DioException catch (err) {
       if (!mounted) return;
 
