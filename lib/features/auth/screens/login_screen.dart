@@ -5,6 +5,7 @@ import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/register_screen.dart';
 import 'package:kronos_app/shared/services/storage_provider.dart';
+import 'package:kronos_app/features/home/screens/home_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -37,9 +38,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(
+      Navigator.pushReplacement(
         context,
-      ).showSnackBar(SnackBar(content: Text('Login realizado com sucesso')));
+        MaterialPageRoute(
+          builder: (context) => HomeScreen()
+        ),
+      );
+
     } on DioException catch (err) {
       if (!mounted) return;
 

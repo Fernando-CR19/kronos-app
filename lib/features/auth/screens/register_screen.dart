@@ -304,6 +304,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 32),
                       ],
                     ),
                   ],
