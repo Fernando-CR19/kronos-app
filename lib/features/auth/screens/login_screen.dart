@@ -36,14 +36,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Login realizado com sucesso')));
-
     } on DioException catch (err) {
       if (!mounted) return;
 
       final statusCode = err.response?.statusCode;
 
       String message;
-      if (statusCode == 401 || statusCode == 404) {
+      if (statusCode == 401) {
         message = 'As credenciais estão erradas.';
       } else {
         message = 'Erro ao fazer login.';
