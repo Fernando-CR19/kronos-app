@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
+import 'package:kronos_app/features/auth/screens/forgot_password_screen.dart';
 
 import 'package:kronos_app/features/auth/screens/register_screen.dart';
 import 'package:kronos_app/shared/services/storage_provider.dart';
@@ -44,7 +45,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           builder: (context) => HomeScreen()
         ),
       );
-
     } on DioException catch (err) {
       if (!mounted) return;
 
@@ -193,7 +193,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen(),
+                            ),
+                          );
+                        },
                         child: Text(
                           'Esqueci minha senha',
                           style: TextStyle(
