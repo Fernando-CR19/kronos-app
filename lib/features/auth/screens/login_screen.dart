@@ -63,6 +63,78 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  Future<void> _googleSignIn() async {
+    try {
+      final authService = ref.read(authServiceProvider);
+      final result = await authService.googleSignIn();
+
+      if (!mounted) return;
+
+      if (result['account_exists'] == 'true') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Conta já existe'),
+            content: Text(
+              'Já existe uma conta com esse email. Deseja vincular com o Google?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final nav = Navigator.of(context);
+                  Navigator.pop(context);
+
+                  final linkResult = await authService.linkGoogleAccount(
+                    email: result['email']!,
+                    googleId: result['google_id']!,
+                  );
+
+                  final storage = ref.read(storageProvider);
+                  await storage.saveToken(linkResult['access_token']!);
+
+                  if (!mounted) return;
+
+                  nav.pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+                child: Text('Vincular'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      final token = result['token'];
+
+      if (token == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao obter token de autenticação.')),
+        );
+        return;
+      }
+
+      final storage = ref.read(storageProvider);
+      final nav = Navigator.of(context);
+      await storage.saveToken(result['token']!);
+
+      nav.pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (err) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao fazer login com o Google')),
+      );
+    }
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -88,7 +160,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 60),
+                        SizedBox(height: 30),
                         Image.asset(
                           'assets/images/kronos_logo.png',
                           width: 150,
@@ -195,7 +267,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                            context, 
+                            context,
                             MaterialPageRoute(
                               builder: (context) => ForgotPasswordScreen(),
                             ),
@@ -226,6 +298,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         Expanded(child: Divider(color: Color(0xFF2A2A4A))),
                       ],
+                    ),
+
+                    SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: OutlinedButton.icon(
+                        onPressed: _googleSignIn,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: Color(0xFF2A2A4A)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        icon: Image.asset(
+                          'assets/images/google_logo.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        label: Text(
+                          'Entrar com o Google',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
 
                     SizedBox(height: 24),
