@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import '../../../shared/services/api_service.dart';
 
 class AuthService {
@@ -68,5 +70,45 @@ class AuthService {
         'password': password,
       }
     );
+  }
+
+  Future<Map<String, dynamic>> googleSignIn() async {
+    final authUrl = '${dotenv.env['BASE_URL']}/auth/google';
+    final callbackSchema = 'kronos';
+
+    final result = await FlutterWebAuth2.authenticate(
+      url: authUrl,
+      callbackUrlScheme: callbackSchema
+    );
+
+    final uri = Uri.parse(result);
+    final token = uri.queryParameters['token'];
+    final accountExists = uri.queryParameters['account_exists'];
+    final firstLogin = uri.queryParameters['first_login'];
+    final email = uri.queryParameters['email'];
+    final googleId = uri.queryParameters['google_id'];
+
+    return {
+      'token': token,
+      'account_exists': accountExists,
+      'first_login': firstLogin,
+      'email': email,
+      'google_id': googleId,
+    };
+  }
+
+  Future<Map<String, dynamic>> linkGoogleAccount({
+    required String email,
+    required String googleId,
+  }) async {
+    final response = await _apiService.client.post(
+      '/auth/google-link',
+      data: {
+        'email': email,
+        'googleId': googleId,
+      }
+    );
+    
+    return response.data;
   }
 }
