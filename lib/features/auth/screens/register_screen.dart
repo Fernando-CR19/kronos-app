@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/login_screen.dart';
+import 'package:kronos_app/features/home/screens/home_screen.dart';
+import 'package:kronos_app/shared/services/storage_provider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -59,30 +61,88 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Conta criada com sucesso'
-          )
-        )
-      );
+      ).showSnackBar(SnackBar(content: Text('Conta criada com sucesso')));
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => LoginScreen()
-        ),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     } on DioException catch (err) {
       final message = err.response?.data['message'] ?? 'Erro ao criar a conta';
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(
-        SnackBar(
-          content: Text(
-            message
-          )
-        )
+      ).showSnackBar(SnackBar(content: Text(message)));
+    }
+  }
+
+  Future<void> _googleSignIn() async {
+    try {
+      final authService = ref.read(authServiceProvider);
+      final result = await authService.googleSignIn();
+
+      if (!mounted) return;
+
+      if (result['account_exists'] == 'true') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Conta já existe'),
+            content: Text(
+              'Já existe uma conta com esse email. Deseja vincular com o Google?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final nav = Navigator.of(context);
+                  Navigator.pop(context);
+
+                  final linkResult = await authService.linkGoogleAccount(
+                    email: result['email']!,
+                    googleId: result['google_id']!,
+                  );
+
+                  final storage = ref.read(storageProvider);
+                  await storage.saveToken(linkResult['access_token']!);
+
+                  if (!mounted) return;
+
+                  nav.pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+                child: Text('Vincular'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      final token = result['token'];
+
+      if (token == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao obter token de autenticação.')),
+        );
+        return;
+      }
+
+      final storage = ref.read(storageProvider);
+      final nav = Navigator.of(context);
+      await storage.saveToken(result['token']!);
+
+      nav.pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (err) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao fazer o cadastro com o Google')),
       );
     }
   }
@@ -105,7 +165,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 60),
+                        SizedBox(height: 30),
                         Text(
                           'CADASTRO',
                           style: TextStyle(
@@ -262,6 +322,34 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ),
                             Expanded(child: Divider(color: Color(0xFF2A2A4A))),
                           ],
+                        ),
+
+                        SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56,
+                          child: OutlinedButton.icon(
+                            onPressed: _googleSignIn,
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Color(0xFF2A2A4A)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            icon: Image.asset(
+                              'assets/images/google_logo.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            label: Text(
+                              'Cadastrar com o Google',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
                         ),
 
                         SizedBox(height: 24),
