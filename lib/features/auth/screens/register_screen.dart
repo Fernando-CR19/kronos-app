@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/login_screen.dart';
@@ -153,7 +154,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: SizedBox(
               width: double.infinity,
               child: Form(
@@ -165,17 +166,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 30),
+                        SizedBox(height: 30.h),
                         Text(
                           'CADASTRO',
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 4,
                           ),
                         ),
 
-                        SizedBox(height: 40),
+                        SizedBox(height: 40.h),
                         TextFormField(
                           controller: _nameController,
                           keyboardType: TextInputType.name,
@@ -188,7 +189,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         TextFormField(
                           controller: _usernameController,
                           keyboardType: TextInputType.name,
@@ -203,7 +204,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -219,7 +220,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         TextFormField(
                           controller: _passwordController,
                           obscureText: !_showPassword,
@@ -248,7 +249,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: !_showConfirmPassword,
@@ -275,15 +276,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 32),
+                        SizedBox(height: 32.h),
                         Container(
                           width: double.infinity,
-                          height: 56,
+                          height: 56.h,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFF4A90D9), Color(0xFF7B2FBE)],
                             ),
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
                           child: ElevatedButton(
                             onPressed: _register,
@@ -291,13 +292,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusGeometry.circular(16),
+                                borderRadius: BorderRadiusGeometry.circular(16.r),
                               ),
                             ),
                             child: Text(
                               'Criar conta',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -305,18 +306,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ),
                         ),
 
-                        SizedBox(height: 24),
+                        SizedBox(height: 24.h),
 
                         Row(
                           children: [
                             Expanded(child: Divider(color: Color(0xFF2A2A4A))),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
                               child: Text(
                                 'ou',
                                 style: TextStyle(
                                   color: Color(0xFF9B9BB5),
-                                  fontSize: 13,
+                                  fontSize: 13.sp,
                                 ),
                               ),
                             ),
@@ -324,35 +325,35 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ],
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         SizedBox(
                           width: double.infinity,
-                          height: 56,
+                          height: 56.h,
                           child: OutlinedButton.icon(
                             onPressed: _googleSignIn,
                             style: OutlinedButton.styleFrom(
                               side: BorderSide(color: Color(0xFF2A2A4A)),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
                             ),
                             icon: Image.asset(
                               'assets/images/google_logo.png',
-                              width: 24,
-                              height: 24,
+                              width: 24.w,
+                              height: 24.h,
                             ),
                             label: Text(
                               'Cadastrar com o Google',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
                         ),
 
-                        SizedBox(height: 24),
+                        SizedBox(height: 24.h),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -361,7 +362,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               'Já tem uma conta? ',
                               style: TextStyle(
                                 color: Color(0xFF9B9BB5),
-                                fontSize: 14,
+                                fontSize: 14.sp,
                               ),
                             ),
                             GestureDetector(
@@ -384,7 +385,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   'Login',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 14,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -392,7 +393,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 32),
+                        SizedBox(height: 32.h),
                       ],
                     ),
                   ],

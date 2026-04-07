@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/reset_password_screen.dart';
@@ -68,7 +69,7 @@ class _ValidateOtpScreenState extends ConsumerState<ValidateOtpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: SizedBox(
               width: double.infinity,
               child: Form(
@@ -80,18 +81,18 @@ class _ValidateOtpScreenState extends ConsumerState<ValidateOtpScreen> {
                     Text(
                       'VERIFICAR CÓDIGO',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 4,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Digite o código enviado para ${widget.email}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: Color(0xFF9B9BB5)),
+                      style: TextStyle(fontSize: 14.sp, color: Color(0xFF9B9BB5)),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 40.h),
                     TextFormField(
                       controller: _codeController,
                       keyboardType: TextInputType.number,
@@ -108,15 +109,15 @@ class _ValidateOtpScreenState extends ConsumerState<ValidateOtpScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                     Container(
                       width: double.infinity,
-                      height: 56,
+                      height: 56.h,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Color(0xFF4A90D9), Color(0xFF7B2FBE)],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: ElevatedButton(
                         onPressed: _validateOtp,
@@ -124,20 +125,20 @@ class _ValidateOtpScreenState extends ConsumerState<ValidateOtpScreen> {
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(16),
+                            borderRadius: BorderRadiusGeometry.circular(16.r),
                           ),
                         ),
                         child: Text(
                           'Verificar código',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                   ],
                 ),
               ),

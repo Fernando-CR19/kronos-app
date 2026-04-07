@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/validate_otp_screen.dart';
@@ -56,7 +57,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: SizedBox(
               width: double.infinity,
               child: Form(
@@ -68,17 +69,17 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     Text(
                       'RECUPERAR SENHA',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 4,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       'Digite seu email para receber o código',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF9B9BB5)),
+                      style: TextStyle(fontSize: 14.sp, color: Color(0xFF9B9BB5)),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 40.h),
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -93,15 +94,15 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                     Container(
                       width: double.infinity,
-                      height: 56,
+                      height: 56.h,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Color(0xFF4A90D9), Color(0xFF7B2FBE)],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: ElevatedButton(
                         onPressed: _forgotPassword,
@@ -109,20 +110,20 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(16),
+                            borderRadius: BorderRadiusGeometry.circular(16.r),
                           ),
                         ),
                         child: Text(
                           'Enviar Código',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 24.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -130,7 +131,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                           'Lembrou a senha? ',
                           style: TextStyle(
                             color: Color(0xFF9B9BB5),
-                            fontSize: 14,
+                            fontSize: 14.sp,
                           ),
                         ),
                         GestureDetector(
@@ -143,7 +144,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                               'Voltar ao login',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -151,7 +152,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 32),
+                    SizedBox(height: 32.h),
                   ],
                 ),
               ),
