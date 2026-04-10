@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kronos_app/features/auth/providers/auth_provider.dart';
 
 import 'package:kronos_app/features/auth/screens/validate_otp_screen.dart';
+import 'package:kronos_app/features/auth/screens/telegram_recovery_screen.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -40,7 +41,6 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           builder: (context) => ValidateOtpScreen(email: _emailController.text),
         ),
       );
-
     } on DioException catch (err) {
       if (!mounted) return;
 
@@ -77,7 +77,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     SizedBox(height: 8.h),
                     Text(
                       'Digite seu email para receber o código',
-                      style: TextStyle(fontSize: 14.sp, color: Color(0xFF9B9BB5)),
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Color(0xFF9B9BB5),
+                      ),
                     ),
                     SizedBox(height: 40.h),
                     TextFormField(
@@ -123,7 +126,26 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 24.h),
+                    SizedBox(height: 16.h),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TelegramRecoveryScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Recuperar via Telegram? Clique aqui',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF9B9BB5),
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
