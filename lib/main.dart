@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:forui/forui.dart';
 
 import 'core/theme/app_theme.dart';
 import 'package:kronos_app/features/auth/screens/login_screen.dart';
@@ -30,7 +31,10 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.dark,
-          home: LoginScreen(),
+          home: FTheme(
+            data: FThemes.zinc.dark,
+            child: LoginScreen(),
+          )
         );
       },
     );
