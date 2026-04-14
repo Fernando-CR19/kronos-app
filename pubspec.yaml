@@ -21,6 +21,7 @@ dependencies:
   flutter_web_auth_2: ^5.0.1
   flutter_screenutil: ^5.9.3
   url_launcher: ^6.3.2
+  forui: ^0.17.0
 
 dev_dependencies:
   flutter_test:
