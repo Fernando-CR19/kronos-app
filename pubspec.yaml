@@ -22,6 +22,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   url_launcher: ^6.3.2
   forui: ^0.17.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
