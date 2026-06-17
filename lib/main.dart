@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:forui/forui.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/theme/app_theme.dart';
 import 'package:kronos_app/features/auth/screens/login_screen.dart';
@@ -29,12 +30,26 @@ class MainApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          localizationsDelegates: const [
+            FLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('pt', 'BR')],
+          locale: const Locale('pt', 'BR'),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.dark,
-          home: FTheme(
-            data: FThemes.zinc.dark,
-            child: LoginScreen(),
-          )
+          builder: (context, child) => FTheme(
+            data: FThemes.zinc.dark.copyWith(
+              colors: FThemes.zinc.dark.colors.copyWith(
+                primary: const Color(0xFF4A90D9),
+                primaryForeground: Colors.white,
+              ),
+            ),
+            child: child!,
+          ),
+          home: LoginScreen(),
         );
       },
     );
